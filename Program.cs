@@ -33,16 +33,24 @@ namespace AddressBook
 
         public class AddressBook
         {
-            private List<Contact> _contacts = new List<Contact>();
+            private Dictionary<String, Contact> _contacts = new Dictionary<String, Contact>();
 
             public void AddContact(Contact contact)
             {
-                _contacts.Add(contact);
+                try
+                {
+                    _contacts.Add(contact.Email, contact);
+                }
+                catch
+                {
+                    Console.WriteLine($"Unable to add the contact: {contact.FullName}.");
+                }
+                
             }
 
             public Contact GetByEmail(string email)
             {
-                return _contacts.Find(contact => contact.Email.CompareTo(email) == 0);
+                return _contacts[email];
             }
         }
 
@@ -79,7 +87,9 @@ namespace AddressBook
             addressBook.AddContact(juan);
 
             // Try to addd a contact a second time
+            
             addressBook.AddContact(sue);
+            
 
 
             // Create a list of emails that match our Contacts
@@ -106,6 +116,7 @@ namespace AddressBook
                 }
                 catch
                 {
+                    Console.WriteLine("----------------------------");
                     Console.WriteLine($"No contact with the email address {email} was found.");
                 }
                 
